@@ -37,6 +37,8 @@ RAG e executar automações através do **n8n**.
 > O diagrama oficial da arquitetura Azure deve ser gerado na segunda etapa do fluxo de execução, em formato editável Draw.io, conforme `prompts.md` e `PROJECT_STRUCTURE.md`.
 > Caminho esperado: `docs/architecture/azure-architecture.drawio`.
 
+![Arquitetura GFM.Template.CMS](docs/Arquitetura-GFM-Template-CMS.png)
+
 ### 🔄 Fluxo principal
 
 ``` text
