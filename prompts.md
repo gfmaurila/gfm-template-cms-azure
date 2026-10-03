@@ -551,3 +551,34 @@ Ler e cumprir `AI_CONTENT_INTELLIGENCE.md`. Todas as possibilidades de provider 
 74. Fallback para IA do servidor é opt-in por tenant, auditável e deve poder ser completamente bloqueado.
 75. Implementar quotas, telemetria e contabilização de uso/custo por tenant/provider/capacidade sem expor secrets ou conteúdo sensível.
 76. Criar testes para resolução BYOAI, isolamento, fallback, ausência de secret, falha de provider e sanitização de logs.
+
+# 10. SOLID, GITFLOW E ENTREGA OBRIGATÓRIA
+
+Antes de implementar qualquer task, ler e obedecer `GITFLOW_SOLID.md`.
+
+Regras não negociáveis:
+
+1. Aplicar SOLID em toda implementação e revisão.
+2. Usar `main` para produção, `hml` para homologação e `develop` para desenvolvimento/integração.
+3. Nunca desenvolver nem fazer push direto em `main`, `hml` ou `develop`.
+4. Para cada task, atualizar `develop` e criar `feature/task-XXXX-descricao` a partir dela.
+5. A IA implementa, testa, executa Quality Gates, faz commit e push da feature.
+6. A IA cria Pull Request `feature/task-* -> develop`.
+7. A IA executa AI Code Review do PR, incluindo SOLID, arquitetura, segurança, testes e documentação.
+8. Somente após aprovação dos gates o PR pode ser integrado em `develop`.
+9. A promoção para homologação ocorre por PR `develop -> hml`.
+10. Após homologação aprovada, criar `release/MAJOR.MINOR.PATCH.BUILD` a partir de `hml`.
+11. A release deve passar novamente pelos Quality Gates e seguir por PR para `main`.
+12. Após merge em `main`, criar tag `vMAJOR.MINOR.PATCH.BUILD` e executar o fluxo de produção.
+13. Sincronizar a release/hotfix de volta com `develop` e `hml` quando necessário.
+14. Hotfix de produção parte de `main` usando `hotfix/<versao>-descricao`, sempre via PR e Quality Gates.
+15. Se a IA não possuir autenticação/permissão GitHub para push/PR, não declarar que a operação ocorreu; preparar o estado local e informar a pendência.
+
+Fluxo oficial:
+
+```text
+develop -> feature/task-* -> PR/AI Review -> develop -> PR -> hml
+                                                    hml -> release/x.x.x.x -> PR -> main -> tag -> produção
+main -> hotfix/* -> PR -> main -> sincronização -> hml/develop
+```
+
