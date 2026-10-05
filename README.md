@@ -34,16 +34,18 @@ RAG e executar automações através do **n8n**.
 
 ## 🏗 Arquitetura da Aplicação
 
-> O diagrama oficial da arquitetura Azure deve ser gerado na segunda etapa do fluxo de execução, em formato editável Draw.io, conforme `prompts.md` e `PROJECT_STRUCTURE.md`.
-> Caminho esperado: `docs/architecture/azure-architecture.drawio`.
+> O diagrama oficial da arquitetura Azure deve ser gerado na segunda etapa do fluxo de execução, em formato editável Draw.io, conforme `prompts.md` e `docs/architecture/PROJECT_STRUCTURE.md`.
+> Caminhos esperados: `docs/architecture/Projeto.drawio` (editável, versionado) e `docs/architecture/drawio/azure-architecture.drawio`.
 
-![Arquitetura GFM.Template.CMS](docs/Arquitetura-GFM-Template-CMS.png)
+![Arquitetura GFM.Template.CMS](docs/architecture/diagrams/Arquitetura-GFM-Template-CMS.png)
 
-![Infográfico GitFlow_ Fluxo Completo CI_CD no Azure GFM.Template.CMS](docs/gitflow.png)
+![Infográfico GitFlow_ Fluxo Completo CI_CD no Azure GFM.Template.CMS](docs/architecture/diagrams/gitflow.png)
 
-![Fluxo Backend Azure Multi-Tenant](docs/backend.png)
+![Fluxo Backend Azure Multi-Tenant](docs/architecture/diagrams/backend.png)
 
-![Fluxo Completo do Front-end em Azure GFM.Template.CMS](docs/frontend.png)
+![Fluxo Completo do Front-end em Azure GFM.Template.CMS](docs/architecture/diagrams/frontend.png)
+
+![Arquitetura Azure Multi-Tenant e CI/CD](docs/architecture/Arquitetura%20Azure%20Multi-Tenant%20e%20CI_CD.png)
 
 
 ### 🔄 Fluxo principal
@@ -352,73 +354,146 @@ webhooks**, evitando acesso direto aos bancos de dados.
 
 ``` bash
 📂 GFM.Template.CMS
-├── 📂 docs
-│   ├── 📄 Arquitetura-GFM-Template-CMS.png
-│   ├── 📄 AI_CONTENT_INTELLIGENCE.md
-│   ├── 📄 AUDIO_INTELLIGENCE.md
-│   └── 📄 README.md
+├── 📂 .claude
+│   ├── 📂 agents
+│   └── 📂 skills
 │
-├── 📂 src
-│   ├── 📂 01 - APIs
-│   │   ├── 📂 API.Gateway
-│   │   ├── 📂 API.Auth
-│   │   ├── 📂 API.Admin
-│   │   └── 📂 API.Site
-│   │
-│   ├── 📂 02 - Workers
-│   │   └── 📂 Worker.Media
-│   │
-│   ├── 📂 03 - Application
-│   │   └── 📂 GFM.Template.CMS.Application
-│   │
-│   ├── 📂 04 - Domain
-│   │   └── 📂 GFM.Template.CMS.Domain
-│   │
-│   ├── 📂 05 - Infrastructure
-│   │   ├── 📂 Persistence
-│   │   ├── 📂 Messaging
-│   │   ├── 📂 Storage
-│   │   │   ├── 📂 GoogleDrive
-│   │   │   ├── 📂 OneDrive
-│   │   │   ├── 📂 SharePoint
-│   │   │   ├── 📂 Azure Blob Storage
-│   │   │   ├── 📂 MinIO
-│   │   │   └── 📂 Local
-│   │   └── 📂 AI
-│   │       ├── 📂 OpenAI
-│   │       ├── 📂 AzureOpenAI
-│   │       ├── 📂 Anthropic
-│   │       ├── 📂 Gemini
-│   │       ├── 📂 AzureOpenAI
-│   │       ├── 📂 OpenAICompatible
-│   │       └── 📂 Local
-│   │
-│   ├── 📂 06 - Frontend
-│   │   ├── 📂 admin
-│   │   └── 📂 site
-│   │
-│   └── 📂 07 - Tests
-│       ├── 📂 UnitTests
-│       ├── 📂 IntegrationTests
-│       └── 📂 ArchitectureTests
+├── 📂 .github
+│   ├── 📄 PULL_REQUEST_TEMPLATE.md
+│   └── 📂 workflows
+│       ├── 📄 ci.yml
+│       ├── 📄 security.yml
+│       ├── 📄 docker.yml
+│       └── 📄 deploy.yml
 │
 ├── 📂 config
 │   └── 📂 examples
 │
-├── 📂 .github
-│   └── 📂 workflows
-│       ├── 📄 ci.yml
-│       ├── 📄 docker.yml
-│       ├── 📄 security.yml
-│       └── 📄 deploy.yml
+├── 📂 tasks
+│   ├── 📂 backlog
+│   ├── 📂 ready
+│   ├── 📂 in-progress
+│   ├── 📂 review
+│   ├── 📂 blocked
+│   ├── 📂 done
+│   └── 📄 DEPENDENCY_GRAPH.md
+│
+├── 📂 docs
+│   ├── 📂 architecture
+│   │   ├── 📄 PROJECT_STRUCTURE.md
+│   │   ├── 📄 README.md
+│   │   ├── 📄 Projeto.drawio
+│   │   └── 📂 diagrams
+│   ├── 📂 ai
+│   │   ├── 📄 AI_CONTENT_INTELLIGENCE.md
+│   │   └── 📄 AUDIO_INTELLIGENCE.md
+│   ├── 📂 project
+│   │   ├── 📄 PROJECT_SKILLS.md
+│   │   └── 📄 SEED_FAKE_DATA.md
+│   ├── 📂 governance
+│   │   ├── 📄 AGENTS_BOOTSTRAP.md
+│   │   ├── 📄 EXECUTION_PLAN.md
+│   │   ├── 📄 GITFLOW.md
+│   │   ├── 📄 GITFLOW_AI_DELIVERY.md
+│   │   ├── 📄 GITFLOW_SOLID.md
+│   │   ├── 📄 KNOWLEDGE_QUALITY_GATE.md
+│   │   └── 📄 QUALITY_GATES.md
+│   ├── 📂 knowledge
+│   │   ├── 📄 PROJECT_KNOWLEDGE_MAP.md
+│   │   ├── 📄 KNOWLEDGE_DECISIONS.md
+│   │   └── 📄 KNOWLEDGE_CONFLICTS.md
+│   ├── 📂 dicionario
+│   ├── 📂 reports
+│   ├── 📂 archive
+│   ├── 📄 README.md
+│   └── 📄 prompts.md
+│
+├── 📂 backend
+│   ├── 📂 src
+│   │   ├── 📂 api
+│   │   │   ├── 📂 GFM.Template.CMS.Gateway.API
+│   │   │   ├── 📂 GFM.Template.CMS.Auth.API
+│   │   │   ├── 📂 GFM.Template.CMS.Admin.API
+│   │   │   └── 📂 GFM.Template.CMS.Site.API
+│   │   ├── 📂 GFM.Template.CMS.Application
+│   │   ├── 📂 GFM.Template.CMS.Domain
+│   │   └── 📂 GFM.Template.CMS.Infrastructure
+│   │       ├── 📂 Persistence
+│   │       ├── 📂 Messaging
+│   │       ├── 📂 Cache
+│   │       ├── 📂 Storage
+│   │       │   ├── 📂 GoogleDrive
+│   │       │   ├── 📂 OneDrive
+│   │       │   ├── 📂 SharePoint
+│   │       │   ├── 📂 AzureBlob
+│   │       │   ├── 📂 MinIO
+│   │       │   └── 📂 Local
+│   │       ├── 📂 AI
+│   │       │   ├── 📂 OpenAI
+│   │       │   ├── 📂 AzureOpenAI
+│   │       │   ├── 📂 Anthropic
+│   │       │   ├── 📂 Gemini
+│   │       │   ├── 📂 AzureAIFoundry
+│   │       │   ├── 📂 OpenAICompatible
+│   │       │   └── 📂 FakeLocal
+│   │       ├── 📂 Identity
+│   │       │   ├── 📂 Passwords
+│   │       │   ├── 📂 EntraId
+│   │       │   └── 📂 Authorization
+│   │       └── 📂 Azure
+│   │           ├── 📂 ServiceBus
+│   │           └── 📂 KeyVault
+│   ├── 📂 workers
+│   ├── 📂 batch
+│   └── 📂 tools
+│
+├── 📂 frontend
+│   ├── 📂 admin
+│   └── 📂 site
+│
+├── 📂 tests
+│   ├── 📂 UnitTests
+│   ├── 📂 IntegrationTests
+│   └── 📂 ArchitectureTests
+│
+├── 📂 infrastructure
+│   ├── 📂 docker
+│   ├── 📂 azurite
+│   ├── 📂 mysql
+│   ├── 📂 mongodb
+│   ├── 📂 redis
+│   ├── 📂 rabbitmq
+│   ├── 📂 kafka
+│   ├── 📂 minio
+│   ├── 📂 observability
+│   ├── 📂 n8n
+│   ├── 📂 kubernetes
+│   ├── 📂 opentofu
+│   └── 📂 azure
+│
+├── 📂 deploy
+│   ├── 📂 bicep
+│   └── 📂 scripts
+│
+├── 📂 scripts
+├── 📂 tools
 │
 ├── 📄 docker-compose.yml
 ├── 📄 docker-compose.override.yml
+├── 📄 docker-compose.test.yml
+├── 📄 GFM.Template.CMS.sln
+├── 📄 Directory.Build.props
+├── 📄 Directory.Packages.props
+├── 📄 .env.example
+├── 📄 .editorconfig
+├── 📄 .gitignore
 ├── 📄 prompts.md
-├── 📄 PROJECT_STRUCTURE.md
-├── 📄 PROJECT_SKILLS.md
 └── 📄 README.md
 ```
+
+> A estrutura de código acima é a oficial definida em
+> [docs/architecture/PROJECT_STRUCTURE.md](docs/architecture/PROJECT_STRUCTURE.md).
+> A estrutura de documentação e governança é a mesma.
 
 > A estrutura final pode ser expandida durante a geração do projeto
 > conforme os módulos e capacidades habilitados.
@@ -983,4 +1058,73 @@ Correções urgentes de produção usam `hotfix/<versao>-descricao`, partindo de
 ## Regra de automação da IA
 
 A IA pode operar Git/GitHub para executar o fluxo, mas nunca deve contornar proteção de branch, aprovação obrigatória ou Quality Gate. Quando credenciais/permissões não estiverem disponíveis, deve preparar os commits/branches e informar exatamente a ação externa pendente, sem simular sucesso.
+
+Detalhamento completo: [docs/governance/GITFLOW_SOLID.md](docs/governance/GITFLOW_SOLID.md) e [docs/governance/GITFLOW_AI_DELIVERY.md](docs/governance/GITFLOW_AI_DELIVERY.md).
+
+---
+
+## 🤖 Agents e Skills (Kit IA Dev)
+
+Agents instalados em [`.claude/agents/`](.claude/agents/):
+
+| Agent | Responsabilidade |
+|---|---|
+| `requirements` | Extração e consolidação de requisitos |
+| `knowledge` | Leitura do Knowledge Dictionary |
+| `project-knowledge` | Sincronização de `docs/knowledge/` |
+| `architect` | Arquitetura `02 - dotnet - Azure Target` |
+| `architecture-validation` | Boundaries e conformidade de arquitetura |
+| `tech-lead` | Granularidade, dependências e branch por Task |
+| `developer` | Implementação de 1 Task por vez |
+| `tester-qa` | Acceptance Criteria e qualidade |
+| `reviewer` | Code review, compliance e SOLID |
+| `documentation` | Documentação, ADRs e conhecimento |
+
+Skills do Kit IA Dev instaladas em [`.claude/skills/`](.claude/skills/):
+`api-design`, `code-review`, `debug-assistant`, `doc-writer`, `feature-planner`, `frontend-design`, `pr-writer`, `refactor-guide`, `security-audit`, `test-generator`.
+
+---
+
+## 🧠 Knowledge-Driven Execution
+
+Antes de criar ou executar Tasks, o Knowledge Quality Gate deve passar:
+
+- [Knowledge Quality Gate](docs/governance/KNOWLEDGE_QUALITY_GATE.md)
+- [Project Knowledge Map](docs/knowledge/PROJECT_KNOWLEDGE_MAP.md)
+- [Knowledge Decisions](docs/knowledge/KNOWLEDGE_DECISIONS.md)
+- [Knowledge Conflicts](docs/knowledge/KNOWLEDGE_CONFLICTS.md)
+
+Knowledge Dictionary (fonte oficial externa):
+`D:\Empresa\GFMaurila\projetos\Kit-IA-Dev\dicionario` — espelho local em [`docs/dicionario/`](docs/dicionario/).
+
+---
+
+## ✅ Quality Gates
+
+- [Quality Gates](docs/governance/QUALITY_GATES.md)
+- [Execution Plan](docs/governance/EXECUTION_PLAN.md)
+- [Agents Bootstrap](docs/governance/AGENTS_BOOTSTRAP.md)
+- [Pull Request Template](.github/PULL_REQUEST_TEMPLATE.md)
+
+---
+
+## Documentation
+
+Project documentation is organized under: docs/
+
+Documentation index: [docs/README.md](docs/README.md)
+
+AI orchestration entry point: [prompts.md](prompts.md)
+
+Tasks and dependency graph: [tasks/](tasks/)
+
+## ☁️ Azure Target
+
+O mapeamento completo de serviços locais/Docker para Azure está em:
+- [docs/architecture/PROJECT_STRUCTURE.md](docs/architecture/PROJECT_STRUCTURE.md) — seção `Fluxo LOCAL → AZURE`
+- [docs/knowledge/KNOWLEDGE_DECISIONS.md](docs/knowledge/KNOWLEDGE_DECISIONS.md) — tabela `Adaptação AWS → Azure`
+- [.claude/agents/architect.md](.claude/agents/architect.md)
+- [.github/workflows/deploy.yml](.github/workflows/deploy.yml) — OIDC, ACR, Container Apps
+
+Azure é target de implantação, **não** uma dependência obrigatória para desenvolvimento local.
 

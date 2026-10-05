@@ -2,10 +2,33 @@
 # The project generator must expand this workflow according to prompts.md and environment rules.
 name: security
 on:
+  pull_request:
+    branches: [develop, hml, main]
+  push:
+    branches: [develop, hml, main]
+  schedule:
+    - cron: '0 3 * * 1'
   workflow_dispatch:
+permissions:
+  contents: read
+  security-events: write
 jobs:
   template:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Expand security workflow when generating the concrete project"
+      - name: Dependency review
+        uses: actions/dependency-review-action@v4
+      - name: CodeQL / static analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: csharp, javascript-typescript
+      - name: Generator expands secret scanning for Azure credentials
+        run: echo "Azure Key Vault references must never be committed; Managed Identities and OIDC only"
+      - name: Container image scan (ACR)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - run: echo "az acr repository list --name $AZURE_CONTAINER_REGISTRY"

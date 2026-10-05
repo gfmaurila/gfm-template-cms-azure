@@ -64,13 +64,26 @@ GFM.Template.CMS/
 ├── scripts/
 ├── tools/
 │
-├── .agents/
+├── .claude/
+│   ├── agents/
+│   └── skills/
+│
 ├── .github/
+│   ├── PULL_REQUEST_TEMPLATE.md
 │   └── workflows/
 │       ├── ci.yml
 │       ├── security.yml
 │       ├── docker.yml
 │       └── deploy.yml
+│
+├── tasks/
+│   ├── backlog/
+│   ├── ready/
+│   ├── in-progress/
+│   ├── review/
+│   ├── blocked/
+│   ├── done/
+│   └── DEPENDENCY_GRAPH.md
 │
 ├── docker-compose.yml
 ├── docker-compose.override.yml
@@ -83,8 +96,6 @@ GFM.Template.CMS/
 ├── prompts.md
 ├── CLAUDE.md
 ├── AGENTS.md
-├── PROJECT_SKILLS.md
-├── PROJECT_STRUCTURE.md
 │
 ├── Directory.Build.props
 ├── Directory.Packages.props
@@ -92,6 +103,40 @@ GFM.Template.CMS/
 ├── GFM.Template.CMS.sln
 │
 └── README.md
+```
+
+Documentação oficial do projeto:
+
+```text
+docs/
+├── README.md
+├── architecture/
+│   ├── PROJECT_STRUCTURE.md
+│   ├── README.md
+│   ├── diagrams/
+│   └── Projeto.drawio
+├── ai/
+│   ├── AI_CONTENT_INTELLIGENCE.md
+│   └── AUDIO_INTELLIGENCE.md
+├── project/
+│   ├── PROJECT_SKILLS.md
+│   └── SEED_FAKE_DATA.md
+├── governance/
+│   ├── AGENTS_BOOTSTRAP.md
+│   ├── EXECUTION_PLAN.md
+│   ├── GITFLOW.md
+│   ├── GITFLOW_AI_DELIVERY.md
+│   ├── GITFLOW_SOLID.md
+│   ├── KNOWLEDGE_QUALITY_GATE.md
+│   └── QUALITY_GATES.md
+├── knowledge/
+│   ├── PROJECT_KNOWLEDGE_MAP.md
+│   ├── KNOWLEDGE_DECISIONS.md
+│   └── KNOWLEDGE_CONFLICTS.md
+├── dicionario/
+├── reports/
+├── archive/
+└── diagrams/
 ```
 
 ---
@@ -868,12 +913,14 @@ docs/
 │   │   ├── kafka-flow.drawio
 │   │   ├── rabbitmq-flow.drawio
 │   │   ├── iam-flow.drawio
+│   │   ├── identity-rbac-flow.drawio
 │   │   ├── ai-flow.drawio
 │   │   ├── rag-flow.drawio
 │   │   ├── docker-architecture.drawio
 │   │   ├── kubernetes-deployment.drawio
 │   │   ├── local-architecture.drawio
 │   │   ├── azure-architecture.drawio
+│   │   ├── azure-oidc-keyvault.drawio
 │   │   └── observability.drawio
 │   │
 │   ├── adr/
@@ -892,13 +939,38 @@ docs/
 │       ├── png/
 │       └── pdf/
 │
+├── ai/
+│   ├── AI_CONTENT_INTELLIGENCE.md
+│   └── AUDIO_INTELLIGENCE.md
+├── project/
+│   ├── PROJECT_SKILLS.md
+│   └── SEED_FAKE_DATA.md
+├── governance/
+│   ├── AGENTS_BOOTSTRAP.md
+│   ├── EXECUTION_PLAN.md
+│   ├── GITFLOW.md
+│   ├── GITFLOW_AI_DELIVERY.md
+│   ├── GITFLOW_SOLID.md
+│   ├── KNOWLEDGE_QUALITY_GATE.md
+│   └── QUALITY_GATES.md
+├── knowledge/
+│   ├── PROJECT_KNOWLEDGE_MAP.md
+│   ├── KNOWLEDGE_DECISIONS.md
+│   └── KNOWLEDGE_CONFLICTS.md
+├── dicionario/
+│   └── *.md
+├── reports/
+│   ├── BOOTSTRAP_REPORT.md
+│   ├── DOCUMENTATION_REORGANIZATION_REPORT.md
+│   └── STANDARDIZATION_AWS_TO_AZURE.md
+├── archive/
+├── README.md
 ├── api/
 ├── database/
 ├── deployment/
 ├── development/
 ├── testing/
 ├── security/
-├── ai/
 └── operations/
 ```
 
@@ -974,7 +1046,7 @@ Os arquivos em `exports/` são derivados.
 └── README.md
 ```
 
-O `PROJECT_SKILLS.md` funciona como catálogo.
+O `docs/project/PROJECT_SKILLS.md` funciona como catálogo.
 
 Cada:
 
@@ -1127,6 +1199,20 @@ GFM.Template.CMS/
 │       ├── docker.yml
 │       └── deploy.yml
 │
+├── .claude/
+│   ├── agents/
+│   └── skills/
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml
+│       ├── security.yml
+│       ├── docker.yml
+│       └── deploy.yml
+│
+├── tasks/
+│   └── DEPENDENCY_GRAPH.md
+│
 ├── docker-compose.yml
 ├── docker-compose.override.yml
 ├── docker-compose.test.yml
@@ -1141,8 +1227,6 @@ GFM.Template.CMS/
 ├── prompts.md
 ├── CLAUDE.md
 ├── AGENTS.md
-├── PROJECT_SKILLS.md
-├── PROJECT_STRUCTURE.md
 │
 ├── GFM.Template.CMS.sln
 └── README.md
@@ -1382,9 +1466,9 @@ A seguinte cadeia deve permanecer sincronizada:
 ```text
 prompts.md
     ↓
-PROJECT_STRUCTURE.md
+docs/architecture/PROJECT_STRUCTURE.md
     ↓
-PROJECT_SKILLS.md
+docs/project/PROJECT_SKILLS.md
     ↓
 ADRs
     ↓
@@ -1411,8 +1495,8 @@ Nenhum agente deve criar diretórios, projetos ou camadas arquiteturais arbitrá
 
 ```text
 prompts.md
-PROJECT_STRUCTURE.md
-PROJECT_SKILLS.md
+docs/architecture/PROJECT_STRUCTURE.md
+docs/project/PROJECT_SKILLS.md
 ADRs
 arquitetura existente
 código existente
@@ -1426,7 +1510,7 @@ A organização deve refletir responsabilidades reais.
 
 # 25. AI Content Intelligence & Storage Orchestration
 
-A arquitetura deve implementar a especificação `AI_CONTENT_INTELLIGENCE.md`. Storage é resolvido por tenant/perfil através de abstrações. Providers previstos: Local, MinIO, Azure Blob Storage, Google Drive, OneDrive e SharePoint. Documentos, áudio e vídeo convergem para um Content Orchestrator e podem seguir para LLM, RAG, Agents/Tools e automações n8n. Credenciais são referenciadas por secrets e nunca persistidas em texto puro.
+A arquitetura deve implementar a especificação `docs/ai/AI_CONTENT_INTELLIGENCE.md`. Storage é resolvido por tenant/perfil através de abstrações. Providers previstos: Local, MinIO, Azure Blob Storage, Google Drive, OneDrive e SharePoint. Documentos, áudio e vídeo convergem para um Content Orchestrator e podem seguir para LLM, RAG, Agents/Tools e automações n8n. Credenciais são referenciadas por secrets e nunca persistidas em texto puro.
 
 # 26. CI/CD oficial — GitHub Actions
 
@@ -1461,87 +1545,23 @@ Infrastructure/AI/Providers/
 
 `OpenAICompatible` deve permitir endpoint configurável para Ollama, vLLM ou servidores equivalentes. O provider concreto nunca deve vazar para Domain. Configuração persistida referencia secrets; secrets são resolvidos em runtime. Fallback para ServerManaged somente com consentimento/configuração explícita do tenant.
 
-# GitFlow, SOLID e Governança de Entrega
+# 29. GitFlow, SOLID e Governança de Entrega
 
-Este projeto adota **SOLID** como padrão obrigatório de design e **GitFlow** como fluxo oficial de versionamento e promoção entre ambientes.
+SOLID e GitFlow são padrões obrigatórios e estão definidos em um único lugar:
 
-## SOLID obrigatório
+- `docs/governance/GITFLOW_SOLID.md` — SOLID obrigatório e fluxo por task, promoção, release e hotfix;
+- `docs/governance/GITFLOW_AI_DELIVERY.md` — branches de trabalho, HML, produção e proteções;
+- `docs/governance/GITFLOW.md` — resumo das branches permanentes;
+- `docs/governance/QUALITY_GATES.md` — gates obrigatórios.
 
-Toda implementação e revisão deve verificar:
+Resumo normativo:
+- SOLID (SRP, OCP, LSP, ISP, DIP) é critério obrigatório nos Quality Gates e no AI Code Review.
+- Branches permanentes: `main` (produção), `hml` (homologação) e `develop` (desenvolvimento/integração).
+- Push direto em `main`, `hml` ou `develop` é proibido; toda task entra por PR.
+- Cada task parte de `develop` em `feature/task-<id>-<slug>`.
+- Release: `release/MAJOR.MINOR.PATCH.BUILD` criada de `hml`, PR para `main`, tag `vX.Y.Z.B`.
+- Hotfix parte de `main` em `hotfix/<versao>-descricao` e é sincronizado de volta para `hml`/`develop`.
+- A IA nunca contorna branch protection, approvals ou Quality Gates.
 
-- **SRP — Single Responsibility Principle**: cada classe/módulo possui uma responsabilidade clara;
-- **OCP — Open/Closed Principle**: extensões devem evitar alterações desnecessárias em código estável;
-- **LSP — Liskov Substitution Principle**: implementações devem respeitar os contratos das abstrações;
-- **ISP — Interface Segregation Principle**: interfaces pequenas e específicas, sem contratos genéricos excessivos;
-- **DIP — Dependency Inversion Principle**: Domain/Application dependem de abstrações, nunca diretamente de detalhes de Infrastructure.
-
-SOLID é critério obrigatório nos Quality Gates e no AI Code Review. Violações relevantes devem ser corrigidas antes do merge.
-
-## Branches permanentes
-
-```text
-main      -> produção
-hml       -> homologação
-develop   -> desenvolvimento/integração
-```
-
-`main`, `hml` e `develop` são protegidas. É proibido implementar diretamente ou fazer push direto nessas branches. Alterações entram por Pull Request.
-
-## Fluxo obrigatório por Task
-
-Cada task deve partir de `develop` e possuir branch própria:
-
-```text
-develop
-   |
-   +--> feature/task-XXXX-descricao
-              |
-              +--> implementação
-              +--> testes
-              +--> commit
-              +--> push
-              +--> Pull Request -> develop
-                         |
-                         +--> AI Code Review
-                         +--> Quality Gates
-                         +--> correções, se necessárias
-                         +--> merge
-```
-
-Convenção: `feature/task-0001-create-auth-api`, `feature/task-0002-user-domain`, `feature/task-0003-azure-blob-storage`.
-
-A IA deve executar `commit` e `push` da branch da task e criar o Pull Request. A IA deve revisar o PR e validar build, testes, arquitetura, SOLID, segurança, qualidade, documentação e impactos antes de permitir o merge.
-
-## Promoção e Release
-
-```text
-feature/task-*
-      |
-      v
-   develop
-      | PR
-      v
-     hml
-      | homologação aprovada
-      v
-release/1.0.0.0
-      | PR + Quality Gates
-      v
-     main
-      |
-      +--> tag v1.0.0.0
-      +--> produção
-```
-
-A branch `release/MAJOR.MINOR.PATCH.BUILD` deve ser criada a partir do conteúdo homologado em `hml`. Após aprovação, a IA cria PR da release para `main`. Depois do merge, deve criar a tag correspondente e garantir a sincronização necessária com `develop`/`hml`, evitando divergência entre as linhas de desenvolvimento e produção.
-
-Versionamento oficial: `MAJOR.MINOR.PATCH.BUILD`, por exemplo `1.0.0.0`, `1.0.0.1`, `1.0.1.0`, `1.1.0.0`, `2.0.0.0`.
-
-## Hotfix
-
-Correções urgentes de produção usam `hotfix/<versao>-descricao`, partindo de `main`. O hotfix deve passar por PR, AI Code Review e Quality Gates e, após produção, ser sincronizado de volta para `develop` e `hml`.
-
-## Regra de automação da IA
-
-A IA pode operar Git/GitHub para executar o fluxo, mas nunca deve contornar proteção de branch, aprovação obrigatória ou Quality Gate. Quando credenciais/permissões não estiverem disponíveis, deve preparar os commits/branches e informar exatamente a ação externa pendente, sem simular sucesso.
+Fluxo: `feature/task-* -> PR -> develop -> PR -> hml -> release/x.x.x.x -> PR -> main -> tag -> GitHub Release -> PROD`.
 

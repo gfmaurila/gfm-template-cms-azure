@@ -202,13 +202,22 @@ terraform.rc
 # .terraform.lock.hcl deve ser versionado.
 
 # ============================================================
-# AWS / LOCALSTACK / SERVERLESS
+# AZURE / AZURITE / SERVERLESS
 # ============================================================
 
-.aws-sam/
-.serverless/
-.localstack/
-**/.localstack/
+.azure/
+.azurefunctions/
+.func/
+.azurite/
+**/.azurite/
+.azure-env/
+**/.azure-env/
+ARM_TEMPLATE_OUTPUT.json
+*.azuredeploy.*
+.arm/
+
+# .bicepparam, main.bicepparam e outputs versionados de IaC
+# permanecem rastreados.
 
 # ============================================================
 # N8N
@@ -259,3 +268,12 @@ $RECYCLE.BIN/
 *.swo
 *.orig
 *.log
+
+# ============================================================
+# TEMPORÁRIOS DE DIAGRAMA (Draw.io / Excalidraw)
+# ============================================================
+# Os .drawio oficiais devem permanecer versionados.
+
+*.drawio.bkp
+*.drawio.tmp
+*~

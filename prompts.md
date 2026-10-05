@@ -48,10 +48,10 @@ O projeto possui quatro documentos principais de orquestração e especificaçã
 
 ```text
 prompts.md
-PROJECT_STRUCTURE.md
-PROJECT_SKILLS.md
-AUDIO_INTELLIGENCE.md
-SEED_FAKE_DATA.md
+docs/architecture/PROJECT_STRUCTURE.md
+docs/project/PROJECT_SKILLS.md
+docs/ai/AUDIO_INTELLIGENCE.md
+docs/project/SEED_FAKE_DATA.md
 ```
 
 Eles devem ser processados nesta ordem:
@@ -59,13 +59,13 @@ Eles devem ser processados nesta ordem:
 ```text
 prompts.md
         ↓
-PROJECT_STRUCTURE.md
+docs/architecture/PROJECT_STRUCTURE.md
         ↓
-PROJECT_SKILLS.md
+docs/project/PROJECT_SKILLS.md
         ↓
-AUDIO_INTELLIGENCE.md
+docs/ai/AUDIO_INTELLIGENCE.md
         ↓
-SEED_FAKE_DATA.md
+docs/project/SEED_FAKE_DATA.md
 ```
 
 Cada documento possui uma responsabilidade específica.
@@ -88,7 +88,7 @@ quality gates
 critérios de conclusão
 ```
 
-## PROJECT_STRUCTURE.md
+## docs/architecture/PROJECT_STRUCTURE.md
 
 Define a estrutura física oficial do:
 
@@ -122,7 +122,7 @@ Skills
 scripts
 ```
 
-## PROJECT_SKILLS.md
+## docs/project/PROJECT_SKILLS.md
 
 Define:
 
@@ -134,7 +134,7 @@ regras de reutilização
 integração com agentes
 ```
 
-## SEED_FAKE_DATA.md
+## docs/project/SEED_FAKE_DATA.md
 
 Define:
 
@@ -282,7 +282,7 @@ A execução completa do projeto deverá seguir:
 07. Configurar AGENTS.md
 08. Configurar suporte multi-tool
 
-09. Ler PROJECT_STRUCTURE.md
+09. Ler docs/architecture/PROJECT_STRUCTURE.md
 10. Criar estrutura oficial do GFM.Template.CMS
 11. Criar solution e projetos
 12. Configurar referências entre projetos
@@ -291,13 +291,13 @@ A execução completa do projeto deverá seguir:
 14. Instalar Skills avançadas
 15. Aplicar atualizações das Skills existentes
 
-16. Ler PROJECT_SKILLS.md
+16. Ler docs/project/PROJECT_SKILLS.md
 17. Mapear Skills necessárias
 18. Estender Skills existentes quando possível
 19. Criar Skills específicas ausentes
 20. Validar ativação das Skills
 
-21. Ler SEED_FAKE_DATA.md
+21. Ler docs/project/SEED_FAKE_DATA.md
 22. Registrar seus requisitos para implementação posterior
 
 23. Consolidar requisitos do projeto
@@ -350,11 +350,11 @@ A execução completa do projeto deverá seguir:
 56. Implementar RAG
 57. Implementar AI Tools
 58. Implementar Agents
-59. Implementar AI Content Intelligence & Storage Orchestration conforme `AI_CONTENT_INTELLIGENCE.md`
+59. Implementar AI Content Intelligence & Storage Orchestration conforme `docs/ai/AI_CONTENT_INTELLIGENCE.md`
 60. Implementar Storage Providers por tenant/perfil: Local, MinIO, Azure Blob Storage, Google Drive, OneDrive e SharePoint
 61. Implementar Content Orchestrator para documentos, áudio e vídeo
 62. Implementar parsers de documentos através de abstrações
-63. Implementar Audio Intelligence conforme `AUDIO_INTELLIGENCE.md`
+63. Implementar Audio Intelligence conforme `docs/ai/AUDIO_INTELLIGENCE.md`
 64. Implementar pipeline FFmpeg / normalização de mídia
 65. Implementar Speech-to-Text através de abstração de provider
 66. Implementar processamento assíncrono, idempotente e multi-tenant
@@ -375,7 +375,7 @@ A execução completa do projeto deverá seguir:
 
 72. Implementar Migrations
 
-73. Implementar SEED_FAKE_DATA.md
+73. Implementar docs/project/SEED_FAKE_DATA.md
 
 74. Executar Migration
 75. Executar Seed automático
@@ -444,14 +444,30 @@ A fonte de verdade do projeto será:
 GFM.Template.CMS/
 │
 ├── prompts.md
-├── PROJECT_STRUCTURE.md
-├── PROJECT_SKILLS.md
-├── SEED_FAKE_DATA.md
 ├── CLAUDE.md
 ├── AGENTS.md
+├── README.md
+│
+├── .claude/
+│   ├── agents/
+│   └── skills/
+│
+├── .github/
+│   └── workflows/
+│
+├── tasks/
+│   └── DEPENDENCY_GRAPH.md
 │
 ├── docs/
-│   └── architecture/
+│   ├── README.md
+│   ├── architecture/
+│   ├── ai/
+│   ├── project/
+│   ├── governance/
+│   ├── knowledge/
+│   ├── dicionario/
+│   ├── reports/
+│   └── archive/
 │
 └── código do próprio GFM.Template.CMS
 ```
@@ -467,13 +483,13 @@ Todos estes elementos devem representar o mesmo sistema:
 ```text
 prompts.md
         ↓
-PROJECT_STRUCTURE.md
+docs/architecture/PROJECT_STRUCTURE.md
         ↓
-PROJECT_SKILLS.md
+docs/project/PROJECT_SKILLS.md
         ↓
-AUDIO_INTELLIGENCE.md
+docs/ai/AUDIO_INTELLIGENCE.md
         ↓
-SEED_FAKE_DATA.md
+docs/project/SEED_FAKE_DATA.md
         ↓
 ADRs
         ↓
@@ -516,9 +532,17 @@ Primeiro execute somente:
 
 3. Confirmar a existência de:
    - prompts.md;
-   - PROJECT_STRUCTURE.md;
-   - PROJECT_SKILLS.md;
-   - SEED_FAKE_DATA.md.
+   - docs/architecture/PROJECT_STRUCTURE.md;
+   - docs/project/PROJECT_SKILLS.md;
+   - docs/project/SEED_FAKE_DATA.md;
+   - docs/README.md;
+   - docs/knowledge/PROJECT_KNOWLEDGE_MAP.md;
+   - docs/knowledge/KNOWLEDGE_DECISIONS.md;
+   - docs/governance/QUALITY_GATES.md;
+   - docs/governance/GITFLOW_AI_DELIVERY.md;
+   - docs/governance/GITFLOW_SOLID.md;
+   - tasks/DEPENDENCY_GRAPH.md;
+   - tasks/backlog/.
 
 4. Identificar a ferramenta de IA de código utilizada.
 
@@ -538,9 +562,29 @@ Primeiro execute somente:
 
 O CI/CD oficial deste template é GitHub Actions. Criar `.github/workflows` com pipelines de build/test/quality, security scanning, Docker build/publish e deploy por ambiente. Não substituir por GitLab CI.
 
+Workflows obrigatórios:
+
+```text
+.github/workflows/
+├── ci.yml          # Quality Gates em PR para develop/hml/main
+├── security.yml    # Dependency Review, CodeQL, secret scanning, scan ACR
+├── docker.yml      # Build da stack local + build/push no Azure Container Registry
+└── deploy.yml      # Deploy por ambiente GitFlow (hml / tag vX.Y.Z.B)
+```
+
+Regras de deploy no Azure:
+
+- Autenticação com Azure via **OpenID Connect** (`azure/login@v2` + `id-token: write`). Nunca storear service principal secrets em secrets do repositório quando OIDC estiver disponível.
+- Imagens em **Azure Container Registry**.
+- Ambientes GitHub (`hml`, `production`) com required reviewers e secrets próprios.
+- Runtime alvo: **Azure Container Apps**; **AKS** quando houver requisito de orquestração dedicada.
+- Segredos de aplicação resolvidos em runtime por **Azure Key Vault** e **Managed Identities**.
+- IaC com **Bicep** ou **OpenTofu** (provider Azure), versionada em `infrastructure/`.
+- O `AZURE TARGET` nunca pode bloquear o desenvolvimento local: `LOCAL FIRST → CONTAINER FIRST → CLOUD READY → AZURE TARGET`.
+
 ## Content Intelligence obrigatório
 
-Ler e cumprir `AI_CONTENT_INTELLIGENCE.md`. Todas as possibilidades de provider devem existir como adapters/configurações selecionáveis por tenant, porém integrações que exigem credenciais externas devem iniciar desabilitadas e nunca impedir o ambiente local de subir.
+Ler e cumprir `docs/ai/AI_CONTENT_INTELLIGENCE.md`. Todas as possibilidades de provider devem existir como adapters/configurações selecionáveis por tenant, porém integrações que exigem credenciais externas devem iniciar desabilitadas e nunca impedir o ambiente local de subir.
 
 ## BYOAI — Bring Your Own AI
 
@@ -554,7 +598,7 @@ Ler e cumprir `AI_CONTENT_INTELLIGENCE.md`. Todas as possibilidades de provider 
 
 # 10. SOLID, GITFLOW E ENTREGA OBRIGATÓRIA
 
-Antes de implementar qualquer task, ler e obedecer `GITFLOW_SOLID.md`.
+Antes de implementar qualquer task, ler e obedecer `docs/governance/GITFLOW_SOLID.md` e `docs/governance/GITFLOW_AI_DELIVERY.md`.
 
 Regras não negociáveis:
 
@@ -581,4 +625,54 @@ develop -> feature/task-* -> PR/AI Review -> develop -> PR -> hml
                                                     hml -> release/x.x.x.x -> PR -> main -> tag -> produção
 main -> hotfix/* -> PR -> main -> sincronização -> hml/develop
 ```
+
+---
+
+# 11. KNOWLEDGE-DRIVEN EXECUTION (BOOTSTRAP PREPARATION)
+
+Este projeto possui Knowledge Dictionary carregado em:
+
+```text
+D:\Empresa\GFMaurila\projetos\Kit-IA-Dev\dicionario\
+```
+
+Espelho local (read-only): `docs/dicionario/`.
+
+Antes de qualquer execução de Tasks de implementação:
+
+1. O `knowledge` Agent DEVE ler `docs/dicionario/` completamente.
+2. O `project-knowledge` Agent DEVE consolidar `docs/knowledge/PROJECT_KNOWLEDGE_MAP.md`, `docs/knowledge/KNOWLEDGE_DECISIONS.md` e `docs/knowledge/KNOWLEDGE_CONFLICTS.md`.
+3. O Knowledge Quality Gate (`docs/governance/KNOWLEDGE_QUALITY_GATE.md`) DEVE ser validado.
+4. Somente com o Gate **PASSED** o Tech Lead pode decompor EPICs em Tasks e o Developer pode implementar.
+5. Aguarde autorização explícita antes de executar a primeira TASK READY.
+
+## Regra de adaptação de cloud
+
+Todo conhecimento que descreva um serviço de cloud deve ser **adaptado** para o equivalente no Azure antes de virar requisito ou Task. O detalhamento do mapeamento está em `docs/knowledge/KNOWLEDGE_DECISIONS.md`.
+
+Mapeamento canônico AWS → Azure:
+
+| AWS | Azure |
+|---|---|
+| Amazon S3 | Azure Blob Storage |
+| Amazon RDS / Aurora MySQL | Azure Database for MySQL - Flexible Server |
+| ElastiCache | Azure Managed Redis |
+| Amazon MQ (RabbitMQ) | Azure Service Bus |
+| MSK (Kafka) | Azure Event Hubs |
+| SQS / SNS | Azure Service Bus Queues / Topics |
+| Secrets Manager / KMS | Azure Key Vault |
+| Cognito | Microsoft Entra ID |
+| IAM Roles / Policies | Azure RBAC + Managed Identities |
+| ECS / EKS | Azure Container Apps / AKS |
+| Lambda | Azure Functions (quando serverless for justificável) |
+| Step Functions | Azure Durable Functions / Logic Apps |
+| CloudFront | Azure Front Door (CDN + WAF) |
+| Route 53 | Azure DNS |
+| CloudWatch | Azure Monitor + Application Insights |
+| AWS Transcribe | Azure AI Speech |
+| Amazon Bedrock | Azure OpenAI / Azure AI Foundry |
+| CloudFormation | Bicep / OpenTofu (provider Azure) |
+| LocalStack | Azurite |
+
+É proibido introduzir dependência, SDK, configuração ou recurso de AWS no projeto Azure. Referências a AWS podem existir apenas como origem histórica no Knowledge Dictionary e no `docs/knowledge/`.
 

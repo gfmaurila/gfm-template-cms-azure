@@ -1,11 +1,26 @@
-# Template placeholder generated for GFM.Template.CMS.
-# The project generator must expand this workflow according to prompts.md and environment rules.
-name: ci
+name: CI - Quality Gates
 on:
+  pull_request:
+    branches: [develop, hml, main]
+  push:
+    branches: [develop, hml]
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
-  template:
+  quality-gates:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Expand ci workflow when generating the concrete project"
+        with:
+          fetch-depth: 0
+      - name: Branch policy
+        run: echo "Validate GitFlow rules from prompts.md and docs/governance/GITFLOW_AI_DELIVERY.md"
+      - name: Backend quality gates
+        run: echo "Generator expands dotnet restore/build/format/test: unit, integration and architecture"
+      - name: Frontend quality gates
+        run: echo "Generator expands install/lint/typecheck/test/build for React apps"
+      - name: SOLID and architecture review
+        run: echo "AI Reviewer validates SOLID and architecture rules before merge"
+      - name: Azure target integrity
+        run: echo "Validate AZURE TARGET parity: no AWS service references in docs, IaC or code"

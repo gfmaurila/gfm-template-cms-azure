@@ -2662,7 +2662,7 @@ O código, as Skills, os diagramas, os ADRs, a infraestrutura, os testes e o `pr
 
 ## `content-intelligence-orchestration`
 
-Responsável pela ingestão e análise multi-tenant de documentos, áudio e vídeo. Deve cumprir `AI_CONTENT_INTELLIGENCE.md`, usar abstrações de Storage Provider, Content Orchestrator, LLM/RAG/Agents e respeitar autorização e isolamento por tenant.
+Responsável pela ingestão e análise multi-tenant de documentos, áudio e vídeo. Deve cumprir `docs/ai/AI_CONTENT_INTELLIGENCE.md`, usar abstrações de Storage Provider, Content Orchestrator, LLM/RAG/Agents e respeitar autorização e isolamento por tenant.
 
 ## `multi-tenant-storage-providers`
 
